@@ -1,3 +1,5 @@
 module.exports = {
-	baseUrl: '/home/wallet/Documents/Coding/Html/Birthday19/dist/'
+	baseUrl: process.env.NODE_ENV === 'production'
+	? '/home/wallet/Documents/Coding/Html/Birthday19/dist/'
+	: '/'
 }
