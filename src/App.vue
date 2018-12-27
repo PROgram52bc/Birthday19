@@ -17,19 +17,18 @@ export default {
 	data() { return {
 		pagesConfig: [
 			{
+				key: 'rocks',
 				imgUrl: rocks,
-				text: '"大山可以挪开，小山可以迁移，但我的慈爱必不离开你，我平安的约也不迁移。"这是怜恤你的主说的。',
+				text: `“大山可以挪开\n 小山可以迁移\n 但我的慈爱必不离开你\n 我平安的约也不迁移。”\n这是怜恤你的主说的。`,
 				textStyle: {
-					top: '10%',
-					left: '20%'
+					top: '20%',
 				}
 			},
 			{
+				key: 'bug',
 				imgUrl: bug,
-				text: '你出来必不至急忙，也不至奔逃，因为耶和华必在你前头行；以色列的神必作你的后盾。',
+				text: `你出来必不至急忙\n也不至奔逃\n因为耶和华必在你前头行；\n以色列的神必作你的后盾。`,
 				textStyle: {
-					top: '10%',
-					left: '20%'
 				}
 			},
 			/*
