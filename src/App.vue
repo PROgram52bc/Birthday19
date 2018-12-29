@@ -1,20 +1,40 @@
 <template>
 	<div id="app">
-		<image-frame v-bind:pages-config="pagesConfig"></image-frame>
+		<loading-page v-if="!imagesLoaded"></loading-page>
+		<image-frame v-else v-bind:pages-config="pagesConfig"></image-frame>
 	</div>
 </template>
 
 <script>
 import ImageFrame from './components/ImageFrame.vue'
+import LoadingPage from './components/LoadingPage.vue'
 import rocks from './assets/img/rocks.jpg'
 import bug from './assets/img/bug.jpg'
+import millipede from './assets/img/millipede.jpg'
+import cloud from './assets/img/cloud.jpg'
+const imageUrls = [
+	rocks,
+	bug,
+	millipede,
+	cloud
+]
 
 export default {
 	name: 'app',
 	components: {
-		ImageFrame
+		ImageFrame,
+		LoadingPage
+	},
+	created: function() {
+		let imagesPromise = [];
+		for (let i=0; i<imageUrls.length; i++)
+			imagesPromise.push(this.preload(imageUrls[i]));
+		Promise.all(imagesPromise).then(()=>{
+			this.imagesLoaded = true;
+		})
 	},
 	data() { return {
+		imagesLoaded: false,
 		pagesConfig: [
 			{
 				key: 'rocks',
@@ -31,10 +51,30 @@ export default {
 				textStyle: {
 				}
 			},
+			{
+				key: 'millipede',
+				imgUrl: millipede,
+				text: `祂必用自己的翎毛遮蔽你\n你要投靠在祂的翅膀底下。\n祂的诚实是大小的盾牌。`,
+				textStyle: {
+					'top': '10%',
+					'color': 'white',
+					'text-shadow': '2px 2px #996633'
+				}
+			},
+			{
+				key: 'cloud',
+				imgUrl: cloud,
+				text: `在你的一生中\n必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n直到永远。`,
+				textStyle: {
+					top: '10%',
+					left: '20%'
+				}
+			},
 			/*
 			{
-				imgUrl: bug,
-				text: '大山可以挪开，小山可以迁移，但我的慈爱必不离开你',
+				key: 'cloud',
+				imgUrl: cloud,
+				text: `在你的一生中\n必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n直到永远。`,
 				textStyle: {
 					top: '10%',
 					left: '20%'
@@ -42,7 +82,21 @@ export default {
 			},
 			*/
 		]
-	} }
+	} },
+	methods: {
+		preload: function(url) {
+			return new Promise((resolve, reject)=>{
+				const img = new Image();
+				img.src = url;
+				img.onload = ()=>{
+					resolve(img);
+				}
+				img.onerror = ()=>{
+					reject(`Error: Failed to load image at ${url}`);
+				}
+			})
+		},
+	}
 }
 </script>
 <style>
