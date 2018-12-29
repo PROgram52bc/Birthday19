@@ -41,14 +41,20 @@ export default {
 				imgUrl: rocks,
 				text: `“大山可以挪开\n 小山可以迁移\n 但我的慈爱必不离开你\n 我平安的约也不迁移。”\n这是怜恤你的主说的。`,
 				textStyle: {
-					top: '20%',
-				}
+					'top': '20%',
+					'color': 'lightblue',
+					'text-shadow': '1px 1px black'
+				},
 			},
 			{
 				key: 'bug',
 				imgUrl: bug,
-				text: `你出来必不至急忙\n也不至奔逃\n因为耶和华必在你前头行；\n以色列的神必作你的后盾。`,
+				text: `你出来必不至急忙\n           也不至奔逃\n因为耶和华必在你前头行；\n以色列的神必作你的后盾。`,
 				textStyle: {
+					'bottom': '5%',
+					'left': '10%',
+					'color': 'yellow',
+					'text-shadow': '1px 2px grey'
 				}
 			},
 			{
@@ -59,15 +65,18 @@ export default {
 					'top': '10%',
 					'color': 'white',
 					'text-shadow': '2px 2px #996633'
-				}
+				},
+				arrowColor: 'white'
 			},
 			{
 				key: 'cloud',
 				imgUrl: cloud,
-				text: `在你的一生中\n必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n直到永远。`,
+				text: `在你的一生中\n    必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n                   直到永远。`,
 				textStyle: {
-					top: '10%',
-					left: '20%'
+					'top': '10%',
+					'left': '10%',
+					'color': '#eafaff',
+					'text-shadow': '1px 1px black'
 				}
 			},
 			/*
