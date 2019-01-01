@@ -69,7 +69,7 @@ export default {
 		tl.play();
 	},
 	data() { return {
-		currentIdx: 5,
+		currentIdx: 0,
 		config: this.pagesConfig
 	}},
 	methods: {

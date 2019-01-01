@@ -86,7 +86,7 @@ export default {
 			{
 				key: 'cloud',
 				imgUrl: cloud,
-				text: `在你的一生中\n    必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n                   直到永远。`,
+				text: `在你的一生中\n    必有恩惠和慈爱随着你\n你也要住在耶和华的殿中\n                   直到永远。`,
 				textStyle: {
 					'top': '10%',
 					'left': '10%',
@@ -97,13 +97,15 @@ export default {
 			{
 				key: 'reference',
 				imgUrl: grass,
-				text: `Reference: blah blah blah\n Music: By Faith`,
+				text: `References:\n赛54:10, 52:12, 诗91:4, 赛30:21, 诗23:6\nMusic: By Faith`,
 				textStyle: {
 					'top': '10%',
+					'left': '3%',
 					'text-align': 'center',
 					'margin': '0 auto',
 					'background': 'rgba(165, 176, 67, .5)',
-					'border-radius': '15px'
+					'border-radius': '15px',
+					'font-size': '.8em'
 				}
 			},
 		]
