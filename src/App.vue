@@ -11,12 +11,16 @@ import LoadingPage from './components/LoadingPage.vue'
 import rocks from './assets/img/rocks.jpg'
 import bug from './assets/img/bug.jpg'
 import millipede from './assets/img/millipede.jpg'
+import insect from './assets/img/insect.jpg'
 import cloud from './assets/img/cloud.jpg'
+import grass from './assets/img/grass.jpg'
 const imageUrls = [
 	rocks,
 	bug,
 	millipede,
-	cloud
+	insect,
+	cloud,
+	grass
 ]
 
 export default {
@@ -69,6 +73,17 @@ export default {
 				arrowColor: 'white'
 			},
 			{
+				key: 'insect',
+				imgUrl: insect,
+				text: `你或向左或向右\n必听见后边有声音说：\n“这是正路，要行在其间。”`,
+				textStyle: {
+					'top': '5%',
+					'color': '#eafaff',
+					'text-shadow': '1px 1px black'
+				},
+				arrowColor: 'white'
+			},
+			{
 				key: 'cloud',
 				imgUrl: cloud,
 				text: `在你的一生中\n    必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n                   直到永远。`,
@@ -79,17 +94,18 @@ export default {
 					'text-shadow': '1px 1px black'
 				}
 			},
-			/*
 			{
-				key: 'cloud',
-				imgUrl: cloud,
-				text: `在你的一生中\n必有恩惠和慈爱随着你\n你且要住在耶和华的殿中\n直到永远。`,
+				key: 'reference',
+				imgUrl: grass,
+				text: `Reference: blah blah blah\n Music: By Faith`,
 				textStyle: {
-					top: '10%',
-					left: '20%'
+					'top': '10%',
+					'text-align': 'center',
+					'margin': '0 auto',
+					'background': 'rgba(165, 176, 67, .5)',
+					'border-radius': '15px'
 				}
 			},
-			*/
 		]
 	} },
 	methods: {
