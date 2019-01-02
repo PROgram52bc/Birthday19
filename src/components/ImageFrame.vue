@@ -1,5 +1,5 @@
 <template>
-	<div class="bg" ref="fallback" style="background-color:black">
+	<div class="background" ref="fallback" style="background-color:black">
 		<div ref="maskDiv" class="mask-div" >
 			<!-- MASK SVG STARTS -->
 			<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" ref="maskBack" fill="black" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,7 @@
 			v-on:leave="leave" 
 			v-on:before-leave="beforeLeave" 
 			v-bind:css="false">
-		<div class="bg" ref="bg" v-bind:key="currentConfig.key" v-bind:style="bgImageStyle">
+		<div class="background" ref="bg" v-bind:key="currentConfig.key" v-bind:style="bgImageStyle">
 			<pre class="text" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
 			<div v-if="currentIdx!=0" class="button prev-button" v-on:click="prevPage">
 				<!-- PREV BUTTON SVG STARTS -->
@@ -60,17 +60,29 @@ export default {
 		pagesConfig: {
 			type: Array,
 			required: true
+		},
+		backgroundMusic: {
+			type: String
 		}
 	},
 	mounted: function() {
+		// load music
+		if (this.backgroundMusic) {
+			this.music = new Audio();
+			this.music.src = this.backgroundMusic;
+			this.music.load();
+		}
+		// entrance animation
 		const tl = new TimelineMax();
+		// eslint-disable-next-line
+		const { bg } = this.$refs;
 		tl.add(this.getMaskAnimation());
 		tl.add(this.getPageAnimation());
-		tl.play();
 	},
 	data() { return {
 		currentIdx: 0,
-		config: this.pagesConfig
+		config: this.pagesConfig,
+		music: null,
 	}},
 	methods: {
 		/* flipping pages */
@@ -84,17 +96,15 @@ export default {
 		},
 		restart() {
 			this.currentIdx = 0;
-		//	const { fallback } = this.$refs;
-		//	fallback.style.backgroundImage = null;
-		//	const tl = new TimelineMax();
-		//	tl.add(this.getFadeOutAnimation());
-		//	tl.add(this.getMaskAnimation());
-		//	tl.add(this.getPageAnimation());
 		},
 		/* timeline utilities */
 		getPageAnimation() {
-			const { text } = this.$refs;
+			const { text, bg } = this.$refs;
 			const tl = new TimelineMax();
+			tl.set(bg, {
+				autoAlpha: 1,
+				immediateRender: false,
+			})
 			tl.add(TweenMax.from(text, 2, { 
 				x: -20, 
 				autoAlpha: 0,
@@ -123,27 +133,38 @@ export default {
 			return tl;
 		},
 		getMaskAnimation() {
-			// eslint-disable-next-line
-			const { bg, maskBack, maskHollow, maskDiv } = this.$refs;
+			const { bg, maskHollow, maskDiv } = this.$refs;
 			const tl = new TimelineMax();
+			// set maskDiv to be visible
 			tl.set(maskDiv, {
-				display: 'block'
+				display: 'block',
+				immediateRender: false,
 			})
+			tl.set(maskDiv, {
+				opacity: 1,
+				immediateRender: false,
+			})
+			// set background div to be visible
 			tl.set(bg, {
-				autoalpha: 1
+				autoAlpha: 1,
+				immediateRender: false,
 			})
+			// transition the circle to expand
 			tl.add(TweenMax.fromTo(maskHollow, 3, {
 				scale: 0,
-				transformOrigin: "center"
+				transformOrigin: "center",
 			},{
 				ease: Power4.easeIn,
 				scale: 1,
-				transformOrigin: "center"
+				transformOrigin: "center",
 			}))
-			tl.add(TweenMax.to(maskBack, 3, {
+			tl.add(TweenMax.fromTo(maskDiv, 3, {
+				opacity: 1,
+			},{
 				opacity: .7,
 				ease: Power4.easeIn,
-			}), '-=3')
+			}),'-=3')
+			// hide the mask at the end
 			tl.set(maskDiv, {
 				display: 'none'
 			}) 
@@ -152,9 +173,10 @@ export default {
 		getFadeOutAnimation() {
 			const tl = new TimelineMax();
 			const { bg } = this.$refs;
-			tl.add(TweenMax.to(bg, .5, {
+			// smoothly hide the background element
+			tl.to(bg, .5, {
 				autoAlpha: 0,
-			}));
+			});
 			return tl;
 		},
 		/* js animation hooks */
@@ -199,7 +221,7 @@ export default {
 <style scoped>
 
 /* Background Image */
-.bg {
+.background {
 	height: 100%;
 	background-position: center;
 	background-repeat: no-repeat;

@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<loading-page v-if="!imagesLoaded"></loading-page>
-		<image-frame v-else v-bind:pages-config="pagesConfig"></image-frame>
+		<image-frame v-else v-bind:background-music="musicUrl" v-bind:pages-config="pagesConfig"></image-frame>
 	</div>
 </template>
 
@@ -14,6 +14,7 @@ import millipede from './assets/img/millipede.jpg'
 import insect from './assets/img/insect.jpg'
 import cloud from './assets/img/cloud.jpg'
 import grass from './assets/img/grass.jpg'
+import music from './assets/By Faith - Keith & Kristyn Getty.mp3'
 const imageUrls = [
 	rocks,
 	bug,
@@ -39,6 +40,7 @@ export default {
 	},
 	data() { return {
 		imagesLoaded: false,
+		musicUrl: music,
 		pagesConfig: [
 			{
 				key: 'rocks',
