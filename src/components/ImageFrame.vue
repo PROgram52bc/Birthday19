@@ -1,5 +1,10 @@
 <template>
 	<div class="background" ref="fallback" style="background-color:black">
+		<!-- TITLE PAGE STARTS -->
+		<div ref="titlePage">
+		</div>
+		<!-- TITLE PAGE ENDS -->
+		<!-- MASK DIV STARTS -->
 		<div ref="maskDiv" class="mask-div">
 			<!-- MASK SVG STARTS -->
 			<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" ref="maskBack" fill="black" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
@@ -11,13 +16,14 @@
 			</svg>
 			<!-- MASK SVG ENDS -->
 		</div> <!-- ref="maskDiv" class="mask-div"-->
+		<!-- MASK DIV ENDS -->
 		<transition 
 			mode="out-in" 
 			v-on:enter="enter" 
 			v-on:leave="leave" 
 			v-on:before-leave="beforeLeave" 
 			v-bind:css="false">
-		<div class="background" ref="bg" v-bind:key="currentConfig.key" v-bind:style="bgImageStyle">
+		<div class="background" ref="mainContent" v-bind:key="currentConfig.key" v-bind:style="bgImageStyle">
 			<pre class="text" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
 			<div v-if="currentIdx!=0" class="button prev-button" v-on:click="prevPage">
 				<!-- PREV BUTTON SVG STARTS -->
@@ -74,9 +80,8 @@ export default {
 		}
 		// entrance animation
 		const tl = new TimelineMax();
-		// eslint-disable-next-line
-		const { bg } = this.$refs;
-		tl.add(this.getMaskAnimation());
+		tl.add(this.getMaskAppearAnimation());
+		tl.add(this.getMaskDisappearAnimation());
 		tl.add(this.getPageAnimation());
 	},
 	data() { return {
@@ -99,9 +104,9 @@ export default {
 		},
 		/* timeline utilities */
 		getPageAnimation() {
-			const { text, bg } = this.$refs;
+			const { text, mainContent } = this.$refs;
 			const tl = new TimelineMax();
-			tl.set(bg, {
+			tl.set(mainContent, {
 				autoAlpha: 1,
 				immediateRender: false,
 			})
@@ -132,15 +137,18 @@ export default {
 				}), '+=8');
 			return tl;
 		},
-		getMaskAnimation() {
-			const { bg, maskHollow, maskDiv } = this.$refs;
+		getMaskAppearAnimation() {
 			const tl = new TimelineMax();
-			// set maskDiv to be visible
+			const { maskDiv } = this.$refs;
 			tl.set(maskDiv, {
 				display: 'block',
-				opacity: 1,
-				immediateRender: false,
+				immediateRender: false
 			})
+			return tl;
+		},
+		getMaskDisappearAnimation() {
+			const { maskHollow, maskDiv } = this.$refs;
+			const tl = new TimelineMax();
 			// transition the circle to expand
 			tl.add(TweenMax.fromTo(maskHollow, 3, {
 				scale: 0,
@@ -156,13 +164,10 @@ export default {
 				opacity: .7,
 				ease: Power4.easeIn,
 			}),'-=3')
-			// hide the mask at the end
 			tl.set(maskDiv, {
 				display: 'none'
-			}) 
+			})
 			return tl;
-		},
-		getFadeOutAnimation() {
 		},
 		/* js animation hooks */
 		// eslint-disable-next-line
@@ -182,9 +187,9 @@ export default {
 		// eslint-disable-next-line
 		leave(el, done) {
 			const tl = new TimelineMax();
-			const { bg } = this.$refs;
+			const { mainContent } = this.$refs;
 			// smoothly hide the background element
-			tl.to(bg, .5, {
+			tl.to(mainContent, .5, {
 				autoAlpha: 0,
 			});
 			tl.eventCallback("onComplete", done);
