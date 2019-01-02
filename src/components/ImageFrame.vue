@@ -1,6 +1,6 @@
 <template>
 	<div class="background" ref="fallback" style="background-color:black">
-		<div ref="maskDiv" class="mask-div" >
+		<div ref="maskDiv" class="mask-div">
 			<!-- MASK SVG STARTS -->
 			<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" ref="maskBack" fill="black" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
 				<mask id="mask-mask">
@@ -10,7 +10,7 @@
 				<rect x="0" y="0" width="100%" height="100%" mask="url(#mask-mask)"></rect>
 			</svg>
 			<!-- MASK SVG ENDS -->
-		</div>
+		</div> <!-- ref="maskDiv" class="mask-div"-->
 		<transition 
 			mode="out-in" 
 			v-on:enter="enter" 
@@ -138,15 +138,7 @@ export default {
 			// set maskDiv to be visible
 			tl.set(maskDiv, {
 				display: 'block',
-				immediateRender: false,
-			})
-			tl.set(maskDiv, {
 				opacity: 1,
-				immediateRender: false,
-			})
-			// set background div to be visible
-			tl.set(bg, {
-				autoAlpha: 1,
 				immediateRender: false,
 			})
 			// transition the circle to expand
@@ -171,13 +163,6 @@ export default {
 			return tl;
 		},
 		getFadeOutAnimation() {
-			const tl = new TimelineMax();
-			const { bg } = this.$refs;
-			// smoothly hide the background element
-			tl.to(bg, .5, {
-				autoAlpha: 0,
-			});
-			return tl;
 		},
 		/* js animation hooks */
 		// eslint-disable-next-line
@@ -196,9 +181,13 @@ export default {
 		},
 		// eslint-disable-next-line
 		leave(el, done) {
-			const tl = this.getFadeOutAnimation();
+			const tl = new TimelineMax();
+			const { bg } = this.$refs;
+			// smoothly hide the background element
+			tl.to(bg, .5, {
+				autoAlpha: 0,
+			});
 			tl.eventCallback("onComplete", done);
-			tl.play();
 		},
 	},
 	computed: {
