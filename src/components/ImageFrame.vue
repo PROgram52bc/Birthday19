@@ -1,23 +1,8 @@
 <template>
 	<div class="background" ref="fallback" style="background-color:black">
-		<!-- TITLE PAGE STARTS -->
-		<div ref="titlePage">
-		</div>
-		<!-- TITLE PAGE ENDS -->
-		<!-- MASK DIV STARTS -->
-		<div ref="maskDiv" class="mask-div">
-			<!-- MASK SVG STARTS -->
-			<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" ref="maskBack" fill="black" width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
-				<mask id="mask-mask">
-				<rect x="0" y="0" width="100" height="100" fill="white"></rect>
-				<circle ref="maskHollow" cx="50%" cy="50%" r="70%" fill="black"></circle>
-				</mask>
-				<rect x="0" y="0" width="100%" height="100%" mask="url(#mask-mask)"></rect>
-			</svg>
-			<!-- MASK SVG ENDS -->
-		</div> <!-- ref="maskDiv" class="mask-div"-->
-		<!-- MASK DIV ENDS -->
-		<transition 
+		<animated-title-page v-on:start-button-clicked="startAll" ref="titlePage"></animated-title-page>
+		<animated-hollow-mask color="black" ref="mask"></animated-hollow-mask>
+		<transition
 			mode="out-in" 
 			v-on:enter="enter" 
 			v-on:leave="leave" 
@@ -60,6 +45,9 @@
 
 <script>
 import { TweenMax, TimelineMax, Back, Power4 } from 'gsap';
+import AnimatedHollowMask from './AnimatedHollowMask.vue'
+import AnimatedTitlePage from './AnimatedTitlePage.vue'
+
 export default {
 	name: 'ImageFrame',
 	props: {
@@ -71,18 +59,20 @@ export default {
 			type: String
 		}
 	},
+	components: {
+		AnimatedHollowMask,
+		AnimatedTitlePage
+	},
 	mounted: function() {
-		// load music
+		/* load music but not play yet */
 		if (this.backgroundMusic) {
 			this.music = new Audio();
 			this.music.src = this.backgroundMusic;
 			this.music.load();
 		}
-		// entrance animation
-		const tl = new TimelineMax();
-		tl.add(this.getMaskAppearAnimation());
-		tl.add(this.getMaskDisappearAnimation());
-		tl.add(this.getPageAnimation());
+	//	const { titlePage } = this.$refs;
+	//	const tl = new TimelineMax();
+	//	tl.add(titlePage.appear());
 	},
 	data() { return {
 		currentIdx: 0,
@@ -90,6 +80,22 @@ export default {
 		music: null,
 	}},
 	methods: {
+		/* initialize animation */
+		startAll() {
+			// play music
+			if (this.music) {
+				// eslint-disable-next-line
+				console.log("Playing music...");
+				//this.music.play();
+			}
+			// entrance animation
+			const { mask, titlePage } = this.$refs;
+			const tl = new TimelineMax();
+			tl.add(titlePage.disappear());
+			tl.add(mask.appear());
+			tl.add(mask.disappear());
+			tl.add(this.getPageAnimation());
+		},
 		/* flipping pages */
 		nextPage() {
 			if (++this.currentIdx >= this.config.length)
@@ -135,38 +141,6 @@ export default {
 					yoyo: true,
 					'stroke-opacity': 0,
 				}), '+=8');
-			return tl;
-		},
-		getMaskAppearAnimation() {
-			const tl = new TimelineMax();
-			const { maskDiv } = this.$refs;
-			tl.set(maskDiv, {
-				display: 'block',
-				immediateRender: false
-			})
-			return tl;
-		},
-		getMaskDisappearAnimation() {
-			const { maskHollow, maskDiv } = this.$refs;
-			const tl = new TimelineMax();
-			// transition the circle to expand
-			tl.add(TweenMax.fromTo(maskHollow, 3, {
-				scale: 0,
-				transformOrigin: "center",
-			},{
-				ease: Power4.easeIn,
-				scale: 1,
-				transformOrigin: "center",
-			}))
-			tl.add(TweenMax.fromTo(maskDiv, 3, {
-				opacity: 1,
-			},{
-				opacity: .7,
-				ease: Power4.easeIn,
-			}),'-=3')
-			tl.set(maskDiv, {
-				display: 'none'
-			})
 			return tl;
 		},
 		/* js animation hooks */
@@ -249,13 +223,5 @@ export default {
 .button-icon {
 	width: 20vw;
 	height: 100vh;
-}
-/* The mask */
-.mask-div {
-	display: none;
-	position: fixed; 
-	z-index: 15; 
-	width: 100vmax; 
-	height: 100vmax;
 }
 </style>
