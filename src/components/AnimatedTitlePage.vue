@@ -1,8 +1,19 @@
 <template>
-	<div ref="titlePage" class="title-page">
-		<h1>Happy Birthday</h1>
-		<!-- change the action to emit when modularized as a component -->
-		<button v-on:click="$emit('start-button-clicked')">Click me</button>
+	<div ref="titlePage" class="title-page" v-bind:style="`background-color:${backgroundColor}`">
+		<div class="upper-container">
+			<h1 class="title main-title" v-bind:style="textStyle">{{mainTitle}}</h1>
+			<h2 class="title sub-title" v-bind:style="textStyle" v-for="subTitle in subTitles" v-bind:key="subTitle">{{subTitle}}</h2>
+			<div class="button" v-on:click="$emit('start-button-clicked')">
+				<svg height="30vh" version="1.1" viewBox="0 0 97 111" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(-58 -89)">
+					<path transform="scale(-1,1)" d="m-62 196-88-51 88-51z" fill="#3cb8d7" fill-rule="evenodd" stroke="#7f7f7f" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1" stroke-width="9" style="paint-order:normal"/>
+					</g>
+				</svg>
+			</div>
+		</div>
+		<div class="lower-container">
+
+		</div>
 	</div>
 </template>
 <script>
@@ -21,6 +32,26 @@ use the .add() method to add the timeline returned from appear() or disappear() 
 By default, this component displays nothing, until the appear() method is called
 */
 	name: 'AnimatedTitlePage',
+	props: {
+		mainTitle: { 
+			type: String,
+			default: 'Main title'
+		},
+		subTitles: { 
+			type: Array,
+			default: function() { return [ 'subtitleline1', 'line2' ]; }
+		},
+		textStyle: {
+			type: Object,
+			default: function() { return {
+				'color': 'white'
+			}}
+		},
+		backgroundColor: {
+			type: String,
+			default: 'black'
+		},
+	},
 	methods: {
 		appear() {
 			const { titlePage } = this.$refs;
@@ -29,6 +60,7 @@ By default, this component displays nothing, until the appear() method is called
 				display: 'block',
 				immediateRender: false
 			})
+			
 			return tl;
 		},
 		disappear() {
@@ -44,11 +76,45 @@ By default, this component displays nothing, until the appear() method is called
 }
 </script>
 <style scoped>
+/* containers */
 .title-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	position: fixed;
 	width: 100vw;
 	height: 100vh;
 	z-index: 16;
 	background-color: black;
 }
+.upper-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	height: 50vh;
+}
+.lower-container {
+	display: flex;
+}
+
+.title {
+	display: flex;
+	justify-content: center;
+	font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+	flex-shrink: 2;
+}
+.main-title {
+	font-size: 10vmax;
+	margin-bottom: 1em;
+}
+.sub-title {
+	font-size: 7vmax;
+}
+.button {
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 3;
+}
+
 </style>
