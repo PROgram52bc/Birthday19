@@ -1,6 +1,6 @@
 <template>
 	<div class="background" ref="fallback" style="background-color:black">
-		<animated-title-page v-on:start-button-clicked="startAll" ref="titlePage"></animated-title-page>
+		<animated-title-page v-on:start-button-clicked="startAll" main-title="" ref="titlePage"></animated-title-page>
 		<animated-hollow-mask color="black" ref="mask"></animated-hollow-mask>
 		<transition
 			mode="out-in" 
@@ -70,9 +70,9 @@ export default {
 			this.music.src = this.backgroundMusic;
 			this.music.load();
 		}
-	//	const { titlePage } = this.$refs;
-	//	const tl = new TimelineMax();
-	//	tl.add(titlePage.appear());
+		const { titlePage } = this.$refs;
+		const tl = new TimelineMax();
+		tl.add(titlePage.appear());
 	},
 	data() { return {
 		currentIdx: 0,
@@ -85,8 +85,8 @@ export default {
 			// play music
 			if (this.music) {
 				// eslint-disable-next-line
-				console.log("Playing music...");
-				//this.music.play();
+				// console.log("Playing music...");
+				this.music.play();
 			}
 			// entrance animation
 			const { mask, titlePage } = this.$refs;
@@ -123,7 +123,7 @@ export default {
 			}));
 			tl.add(TweenMax.from('.next-button', 3, {
 				x: -30,
-				alpha: 0,
+				autoAlpha: 0,
 				ease: Power4.easeOut
 			}), '+=1.5');
 			tl.add(TweenMax.from('.prev-button', 3, {
@@ -148,7 +148,6 @@ export default {
 		enter(el, done) {
 			const tl = this.getPageAnimation();
 			tl.eventCallback("onComplete", done);
-			tl.play();
 
 			// trick: preloading the next image into memory to make the transition smooth
 			const { fallback } = this.$refs;
@@ -161,12 +160,12 @@ export default {
 		// eslint-disable-next-line
 		leave(el, done) {
 			const tl = new TimelineMax();
+			tl.eventCallback("onComplete", done);
 			const { mainContent } = this.$refs;
 			// smoothly hide the background element
 			tl.to(mainContent, .5, {
 				autoAlpha: 0,
 			});
-			tl.eventCallback("onComplete", done);
 		},
 	},
 	computed: {

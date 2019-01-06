@@ -101,6 +101,7 @@ export default {
 				imgUrl: grass,
 				text: `愿主的恩典常与你同在!\n\nReferences:\n赛54:10, 52:12, 诗91:4, 赛30:21, 诗23:6\nMusic: By Faith`,
 				textStyle: {
+					'position': 'relative',
 					'top': '10%',
 					'text-align': 'center',
 					'margin': '0 auto',
