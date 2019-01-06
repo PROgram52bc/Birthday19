@@ -1,9 +1,11 @@
 <template>
 	<div ref="titlePage" class="title-page" v-bind:style="`background-color:${backgroundColor}`">
 		<div class="upper-container">
-			<h1 class="title main-title" v-bind:style="textStyle">{{mainTitle}}</h1>
-			<h2 class="title sub-title" v-bind:style="textStyle" v-for="subTitle in subTitles" v-bind:key="subTitle">{{subTitle}}</h2>
-			<div class="button" v-on:click="$emit('start-button-clicked')">
+			<h1 class="title main-title" ref="mainTitle" v-bind:style="textStyle">{{mainTitle}}</h1>
+			<h2 class="title sub-title" ref="subTitle" v-bind:style="textStyle" v-for="subTitle in subTitles" v-bind:key="subTitle">{{subTitle}}</h2>
+		</div>
+		<div class="lower-container">
+			<div class="button" ref="button" v-on:click="$emit('start-button-clicked')">
 				<svg height="30vh" version="1.1" viewBox="0 0 97 111" xmlns="http://www.w3.org/2000/svg">
 					<g transform="translate(-58 -89)">
 					<path transform="scale(-1,1)" d="m-62 196-88-51 88-51z" fill="#3cb8d7" fill-rule="evenodd" stroke="#7f7f7f" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1" stroke-width="9" style="paint-order:normal"/>
@@ -11,14 +13,11 @@
 				</svg>
 			</div>
 		</div>
-		<div class="lower-container">
-
-		</div>
 	</div>
 </template>
 <script>
 // eslint-disable-next-line
-import { TweenMax, TimelineMax, Power4 } from 'gsap';
+import { Back, TweenMax, TimelineMax, Power4 } from 'gsap';
 export default {
 /* animated components:
 has dependency on the gsap package.
@@ -54,18 +53,34 @@ By default, this component displays nothing, until the appear() method is called
 	},
 	methods: {
 		appear() {
-			const { titlePage } = this.$refs;
+			// eslint-disable-next-line
+			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
 			tl.set(titlePage, {
 				display: 'block',
 				immediateRender: false
 			})
-			
+			tl.staggerFrom([mainTitle, ...subTitle], 2, {
+				opacity: 0
+			}, 1)
+			tl.from(button, 1, {
+				scale: 0,
+				ease: Back.easeOut,
+				transformOrigin: '50% 50%'
+			})
 			return tl;
 		},
 		disappear() {
-			const { titlePage } = this.$refs;
+			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
+			tl.to(button, 1, {
+				scale: 0,
+				ease: Back.easeIn,
+				transformOrigin: '50% 50%'
+			})
+			tl.to([mainTitle, ...subTitle], 1, {
+				autoAlpha: 0
+			}) 
 			tl.set(titlePage, {
 				display: 'none',
 				immediateRender: false
@@ -95,6 +110,9 @@ By default, this component displays nothing, until the appear() method is called
 }
 .lower-container {
 	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 50vh;
 }
 
 .title {
