@@ -123,7 +123,7 @@ export default {
 			}));
 			tl.add(TweenMax.from('.next-button', 3, {
 				x: -30,
-				autoAlpha: 0,
+				alpha: 0,
 				ease: Power4.easeOut
 			}), '+=1.5');
 			tl.add(TweenMax.from('.prev-button', 3, {
@@ -205,11 +205,16 @@ export default {
 	padding: 2rem;
 	margin: 0;
 }
+.text::first-letter {
+	font-size: 2.5em;
+	margin-right: .15em;
+}
 
 /* The buttons */
 .button {
 	z-index: 10;
 	position: fixed;
+	top: 0;
 	height: 100%;
 	text-align: right;
 	cursor: pointer;

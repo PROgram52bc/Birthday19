@@ -99,10 +99,9 @@ export default {
 			{
 				key: 'reference',
 				imgUrl: grass,
-				text: `References:\n赛54:10, 52:12, 诗91:4, 赛30:21, 诗23:6\nMusic: By Faith`,
+				text: `愿主的恩典常与你同在!\n\nReferences:\n赛54:10, 52:12, 诗91:4, 赛30:21, 诗23:6\nMusic: By Faith`,
 				textStyle: {
 					'top': '10%',
-					'left': '3%',
 					'text-align': 'center',
 					'margin': '0 auto',
 					'background': 'rgba(165, 176, 67, .5)',
