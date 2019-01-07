@@ -156,10 +156,6 @@ export default {
 		enter(el, done) {
 			const tl = this.getPageAnimation();
 			tl.eventCallback("onComplete", done);
-
-			// trick: preloading the next image into memory to make the transition smooth
-			const { fallback } = this.$refs;
-			fallback.style.backgroundImage = `url(${this.config[this.nextIndex].imgUrl})`
 		},
 		beforeLeave() {
 			const { fallback } = this.$refs;
@@ -171,7 +167,7 @@ export default {
 			tl.eventCallback("onComplete", done);
 			const { mainContent } = this.$refs;
 			// smoothly hide the background element
-			tl.to(mainContent, .5, {
+			tl.to(mainContent, 1.5, {
 				autoAlpha: 0,
 			});
 		},

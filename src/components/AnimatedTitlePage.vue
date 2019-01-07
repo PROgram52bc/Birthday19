@@ -63,7 +63,7 @@ By default, this component displays nothing, until the appear() method is called
 				scale: 0,
 				ease: Back.easeOut,
 				transformOrigin: '50% 50%'
-			}, '+=3')
+			})
 			return tl;
 		},
 		disappear() {
