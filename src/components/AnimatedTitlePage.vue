@@ -42,13 +42,9 @@ By default, this component displays nothing, until the appear() method is called
 		},
 		textStyle: {
 			type: Object,
-			default: function() { return {
-				'color': 'white'
-			}}
 		},
 		backgroundColor: {
 			type: String,
-			default: 'black'
 		},
 	},
 	methods: {
@@ -60,20 +56,20 @@ By default, this component displays nothing, until the appear() method is called
 				display: 'block',
 				immediateRender: false
 			})
-			tl.staggerFrom([mainTitle, ...subTitle], 2, {
+			tl.staggerFrom([mainTitle, ...subTitle], 5, {
 				opacity: 0
-			}, 1)
-			tl.from(button, 1, {
+			}, 2)
+			tl.from(button, .5, {
 				scale: 0,
 				ease: Back.easeOut,
 				transformOrigin: '50% 50%'
-			})
+			}, '+=3')
 			return tl;
 		},
 		disappear() {
 			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
-			tl.to(button, 1, {
+			tl.to(button, .5, {
 				scale: 0,
 				ease: Back.easeIn,
 				transformOrigin: '50% 50%'
@@ -120,12 +116,17 @@ By default, this component displays nothing, until the appear() method is called
 	justify-content: center;
 	font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
 	flex-shrink: 2;
+	color: white;
 }
 .main-title {
-	font-size: 10vmax;
+	padding: 10px;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px #3cb8d7, 0 0 70px #3cb8d7, 0 0 80px #3cb8d7, 0 0 100px #3cb8d7;
+	font-size: 8vmax;
+	margin-top: 1em;
 	margin-bottom: 1em;
 }
 .sub-title {
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
 	font-size: 7vmax;
 }
 .button {

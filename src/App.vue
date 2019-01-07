@@ -1,7 +1,10 @@
 <template>
 	<div id="app">
 		<loading-page v-if="!imagesLoaded"></loading-page>
-		<image-frame v-else v-bind:background-music="musicUrl" v-bind:pages-config="pagesConfig"></image-frame>
+		<image-frame v-else 
+				v-bind:title-page-config="titlePageConfig"
+				v-bind:background-music="musicUrl" 
+				v-bind:pages-config="pagesConfig"></image-frame>
 	</div>
 </template>
 
@@ -41,6 +44,13 @@ export default {
 	data() { return {
 		imagesLoaded: false,
 		musicUrl: music,
+		titlePageConfig: {
+			mainTitle: '祝你生日快乐',
+			subTitles: [
+				'🎂🎂🎂🎂',
+				'2019-1-19',
+			],
+		},
 		pagesConfig: [
 			{
 				key: 'rocks',

@@ -1,6 +1,6 @@
 <template>
 	<div class="background" ref="fallback" style="background-color:black">
-		<animated-title-page v-on:start-button-clicked="startAll" main-title="" ref="titlePage"></animated-title-page>
+		<animated-title-page v-on:start-button-clicked="startAll" v-bind:main-title="titlePageConfig.mainTitle" v-bind:sub-titles="titlePageConfig.subTitles" ref="titlePage"></animated-title-page>
 		<animated-hollow-mask color="black" ref="mask"></animated-hollow-mask>
 		<transition
 			mode="out-in" 
@@ -57,6 +57,14 @@ export default {
 		},
 		backgroundMusic: {
 			type: String
+		},
+		titlePageConfig: {
+			type: Object,
+			default: function(){ return {
+				mainTitle: "",
+				subTitles: [''],
+				textStyle: {}
+			}}
 		}
 	},
 	components: {
