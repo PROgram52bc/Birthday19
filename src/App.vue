@@ -17,7 +17,7 @@ import millipede from './assets/img/millipede.jpg'
 import insect from './assets/img/insect.jpg'
 import cloud from './assets/img/cloud.jpg'
 import grass from './assets/img/grass.jpg'
-import music from './assets/By Faith - Keith & Kristyn Getty.mp3'
+import music from './assets/audio/By_Faith_64kbps.mp3'
 const imageUrls = [
 	rocks,
 	bug,
@@ -34,10 +34,11 @@ export default {
 		LoadingPage
 	},
 	created: function() {
-		let imagesPromise = [];
+		let resourcePromises = [];
 		for (let i=0; i<imageUrls.length; i++)
-			imagesPromise.push(this.preload(imageUrls[i]));
-		Promise.all(imagesPromise).then(()=>{
+			resourcePromises.push(this.preloadImg(imageUrls[i]));
+        resourcePromises.push(this.preloadAudio(music));
+		Promise.all(resourcePromises).then(()=>{
 			this.imagesLoaded = true;
 		})
 	},
@@ -123,7 +124,7 @@ export default {
 		]
 	} },
 	methods: {
-		preload: function(url) {
+		preloadImg: function(url) {
 			return new Promise((resolve, reject)=>{
 				const img = new Image();
 				img.src = url;
@@ -135,6 +136,15 @@ export default {
 				}
 			})
 		},
+        preloadAudio: function(url) {
+            return new Promise((resolve)=>{
+                const audio = new Audio();
+                audio.src = url;
+                audio.oncanplaythrough = ()=>{
+                    resolve(audio);
+                }
+            })
+        }
 	}
 }
 </script>
