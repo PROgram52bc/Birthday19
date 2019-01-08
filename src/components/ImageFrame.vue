@@ -12,21 +12,21 @@
 			<pre class="text" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
 			<div v-if="currentIdx!=0" class="button prev-button" v-on:click="prevPage">
 				<!-- PREV BUTTON SVG STARTS -->
-				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.2" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
+				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
 					<path d="M4,0L1,3L4,6" ></path>
 				</svg>
 				<!-- PREV BUTTON SVG ENDS -->
 			</div>
 			<div v-if="currentIdx!=config.length-1" class="button next-button" v-on:click="nextPage">
 				<!-- NEXT BUTTON SVG STARTS -->
-				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.2" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
+				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
 					<path d="M1,0L4,3L1,6" ></path>
 				</svg>
 				<!-- NEXT BUTTON SVG ENDS -->
 			</div>
 			<div v-else class="button next-button" v-on:click="restart">
 				<!-- RESTART BUTTON SVG STARTS -->
-				<svg class="button-icon" stroke-linecap="round" stroke-width="20%" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.2" fill="none" stroke-linejoin="round" viewBox="0 0 109 101" xmlns="http://www.w3.org/2000/svg">
+				<svg class="button-icon" stroke-linecap="round" stroke-width="20%" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 109 101" xmlns="http://www.w3.org/2000/svg">
 					<g transform="translate(-61 -93)">
 					<g transform="translate(-14 -12)">
 					<g transform="rotate(-37 110 69)">
@@ -139,10 +139,7 @@ export default {
 				autoAlpha: 0,
 				ease: Power4.easeOut
 			}), '-=.5');
-			tl.add(TweenMax.fromTo('.button-icon', 2, 
-				{
-					'stroke-opacity': .4,
-				},
+			tl.add(TweenMax.to('.button-icon', 2, 
 				{
 					repeat: -1,
 					repeatDelay: 3,
@@ -167,6 +164,11 @@ export default {
 			tl.eventCallback("onComplete", done);
 			const { mainContent } = this.$refs;
 			// smoothly hide the background element
+            // kick the element to the GPU 
+            // source: https://greensock.com/forums/topic/7842-greensock-slow-on-mobile-devices/
+            tl.set(mainContent, {
+                z: 0.1
+            })
 			tl.to(mainContent, 1.5, {
 				autoAlpha: 0,
 			});
