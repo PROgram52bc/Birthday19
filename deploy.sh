@@ -7,7 +7,8 @@ $prettyPrint "Building Project"
 npm run build && 
 	$prettyPrint "Building complete" || { $prettyPrint "Failed building" ; exit -1; }
 $prettyPrint "Deploying project to ${server}:${deploydir}"
-ssh ${server} rm -rf ${deploydir}/*
-scp -r dist/* ${server}:${deploydir}
+# ssh ${server} rm -rf ${deploydir}/*
+# scp -r dist/* ${server}:${deploydir}
+rsync -azP --delete ./dist/ ${server}:${deploydir}
 
 $prettyPrint "Deploy complete"
