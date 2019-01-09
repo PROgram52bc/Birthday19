@@ -6,7 +6,7 @@
 		</div>
 		<div class="lower-container">
 			<div class="button" ref="button" v-on:click="$emit('start-button-clicked')">
-				<svg height="30vh" version="1.1" viewBox="0 0 97 111" xmlns="http://www.w3.org/2000/svg">
+				<svg height="25vh" version="1.1" viewBox="0 0 97 111" xmlns="http://www.w3.org/2000/svg">
 					<g transform="translate(-58 -89)">
 					<path transform="scale(-1,1)" d="m-62 196-88-51 88-51z" fill="#3cb8d7" fill-rule="evenodd" stroke="#7f7f7f" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1" stroke-width="9" style="paint-order:normal"/>
 					</g>
@@ -56,14 +56,14 @@ By default, this component displays nothing, until the appear() method is called
 				display: 'block',
 				immediateRender: false
 			})
-			tl.staggerFrom([mainTitle, ...subTitle], 5, {
+			tl.staggerFrom([mainTitle, ...subTitle, button], 6, {
 				opacity: 0
-			}, 2)
-			tl.from(button, .5, {
-				scale: 0,
-				ease: Back.easeOut,
-				transformOrigin: '50% 50%'
-			})
+			}, 1)
+		//	tl.from(button, .5, {
+		//		scale: 0,
+		//		ease: Back.easeOut,
+		//		transformOrigin: '50% 50%'
+		//	})
 			return tl;
 		},
 		disappear() {
@@ -120,13 +120,13 @@ By default, this component displays nothing, until the appear() method is called
 }
 .main-title {
 	padding: 10px;
-	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px #3cb8d7, 0 0 70px #3cb8d7, 0 0 80px #3cb8d7, 0 0 100px #3cb8d7;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 7px white, 0 0 40px #3cb8d7, 0 0 70px #3cb8d7, 0 0 80px #3cb8d7, 0 0 100px #3cb8d7;
 	font-size: 8vmax;
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
 .sub-title {
-	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 7px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
 	font-size: 7vmax;
 }
 .button {
@@ -134,6 +134,7 @@ By default, this component displays nothing, until the appear() method is called
 	justify-content: center;
 	cursor: pointer;
 	flex-shrink: 3;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 7px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
 }
 
 </style>
