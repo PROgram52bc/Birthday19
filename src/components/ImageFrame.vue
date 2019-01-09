@@ -44,6 +44,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { TweenMax, TimelineMax, Back, Power4 } from 'gsap';
 import AnimatedHollowMask from './AnimatedHollowMask.vue'
 import AnimatedTitlePage from './AnimatedTitlePage.vue'
@@ -71,6 +72,11 @@ export default {
 		AnimatedHollowMask,
 		AnimatedTitlePage
 	},
+    created: function() {
+        // initialize the firstTime array
+        for (var i=0; i<this.pagesConfig.length; i++)
+            this.firstTime.push(true);
+    },
 	mounted: function() {
 		/* load music but not play yet */
 		if (this.backgroundMusic) {
@@ -78,14 +84,15 @@ export default {
 			this.music.src = this.backgroundMusic;
 			this.music.load();
 		}
-		const { titlePage } = this.$refs;
-		const tl = new TimelineMax();
-		tl.add(titlePage.appear());
+	//	const { titlePage } = this.$refs;
+	//	const tl = new TimelineMax();
+	//	tl.add(titlePage.appear());
 	},
 	data() { return {
 		currentIdx: 0,
 		config: this.pagesConfig,
 		music: null,
+        firstTime: [], // indicating whether it is the first time viewing each page
 	}},
 	methods: {
 		/* initialize animation */
@@ -100,9 +107,10 @@ export default {
 			const { mask, titlePage } = this.$refs;
 			const tl = new TimelineMax();
 			tl.add(titlePage.disappear());
-			tl.add(mask.appear());
-			tl.add(mask.disappear());
-			tl.add(this.getPageAnimation());
+	//		tl.add(mask.appear());
+	//		tl.add(mask.disappear());
+			tl.add(this.getFirstTimePageAnimation());
+            this.firstTime[0] = false;
 		},
 		/* flipping pages */
 		nextPage() {
@@ -117,15 +125,20 @@ export default {
 			this.currentIdx = 0;
 		},
 		/* timeline utilities */
-		getPageAnimation() {
+        getFirstTimePageAnimation() {
 			const { text, mainContent } = this.$refs;
 			const tl = new TimelineMax();
 			tl.set(mainContent, {
 				autoAlpha: 1,
 				immediateRender: false,
 			})
+            tl.set(mainContent, {
+                perspective: '200px',
+            })
 			tl.add(TweenMax.from(text, 2, { 
-				x: -20, 
+				//x: -20, 
+                transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
+                scale: 0,
 				autoAlpha: 0,
 				ease: Back.easeInOut
 			}));
@@ -147,18 +160,60 @@ export default {
 					'stroke-opacity': 0,
 				}), '+=8');
 			return tl;
+        },
+		getPageAnimation() {
+			const { text, mainContent } = this.$refs;
+			const tl = new TimelineMax();
+			tl.set(mainContent, {
+				autoAlpha: 1,
+				immediateRender: false,
+			})
+        //    tl.set(mainContent, {
+        //        perspective: '200px',
+        //    })
+		//	tl.add(TweenMax.from(text, 2, { 
+		//		//x: -20, 
+        //        transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
+        //        scale: 0,
+		//		autoAlpha: 0,
+		//		ease: Back.easeInOut
+		//	}));
+		//	tl.add(TweenMax.from('.next-button', 3, {
+		//		x: -30,
+		//		autoAlpha: 0,
+		//		ease: Power4.easeOut
+		//	}), '+=1.5');
+		//	tl.add(TweenMax.from('.prev-button', 3, {
+		//		x: 10,
+		//		autoAlpha: 0,
+		//		ease: Power4.easeOut
+		//	}), '-=.5');
+		//	tl.add(TweenMax.to('.button-icon', 2, 
+		//		{
+		//			repeat: -1,
+		//			repeatDelay: 3,
+		//			yoyo: true,
+		//			'stroke-opacity': 0,
+		//		}), '+=8');
+			return tl;
 		},
 		/* js animation hooks */
-		// eslint-disable-next-line
 		enter(el, done) {
-			const tl = this.getPageAnimation();
+            const tl = new TimelineMax();
 			tl.eventCallback("onComplete", done);
+            if (this.firstTime[this.currentIdx]) // if first time
+            {
+                tl.add(this.getFirstTimePageAnimation());
+                this.firstTime[this.currentIdx] = false;
+            }
+            else {
+                tl.add(this.getPageAnimation());
+            }
 		},
 		beforeLeave() {
 			const { fallback } = this.$refs;
 			fallback.style.backgroundImage = `url(${this.currentConfig.imgUrl})`
 		},
-		// eslint-disable-next-line
 		leave(el, done) {
 			const tl = new TimelineMax();
 			tl.eventCallback("onComplete", done);
