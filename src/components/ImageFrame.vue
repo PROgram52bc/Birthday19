@@ -9,7 +9,7 @@
 			v-on:before-leave="beforeLeave" 
 			v-bind:css="false">
 		<div class="background" ref="mainContent" v-bind:key="currentConfig.key" v-bind:style="bgImageStyle">
-			<pre class="text" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
+			<pre class="text emphasize-first-letter" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
 			<div v-if="currentIdx!=0" class="button prev-button" v-on:click="prevPage">
 				<!-- PREV BUTTON SVG STARTS -->
 				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +48,7 @@
 import { TweenMax, TimelineMax, Back, Power4 } from 'gsap';
 import AnimatedHollowMask from './AnimatedHollowMask.vue'
 import AnimatedTitlePage from './AnimatedTitlePage.vue'
+import { Split } from '../tools/split.js'
 
 export default {
 	name: 'ImageFrame',
@@ -72,11 +73,11 @@ export default {
 		AnimatedHollowMask,
 		AnimatedTitlePage
 	},
-    created: function() {
-        // initialize the firstTime array
-        for (var i=0; i<this.pagesConfig.length; i++)
-            this.firstTime.push(true);
-    },
+	created: function() {
+		// initialize the firstTime array
+		for (var i=0; i<this.pagesConfig.length; i++)
+			this.firstTime.push(true);
+	},
 	mounted: function() {
 		/* load music but not play yet */
 		if (this.backgroundMusic) {
@@ -92,7 +93,7 @@ export default {
 		currentIdx: 0,
 		config: this.pagesConfig,
 		music: null,
-        firstTime: [], // indicating whether it is the first time viewing each page
+		firstTime: [], // indicating whether it is the first time viewing each page
 	}},
 	methods: {
 		/* initialize animation */
@@ -110,7 +111,7 @@ export default {
 	//		tl.add(mask.appear());
 	//		tl.add(mask.disappear());
 			tl.add(this.getFirstTimePageAnimation());
-            this.firstTime[0] = false;
+			this.firstTime[0] = false;
 		},
 		/* flipping pages */
 		nextPage() {
@@ -125,20 +126,67 @@ export default {
 			this.currentIdx = 0;
 		},
 		/* timeline utilities */
-        getFirstTimePageAnimation() {
+		getFirstTimePageAnimation() {
+			const { text, mainContent } = this.$refs;
+			// split text to lines
+			const split = new Split(text);
+			split.splitToLines();
+			const lines = split.getLines();
+			// emphasize the first letter of the first line
+			lines[0].classList.add("emphasize-first-letter");
+			// eslint-disable-next-line
+			console.log(lines[0]);
+			const tl = new TimelineMax();
+			tl.set(mainContent, {
+				autoAlpha: 1,
+				immediateRender: false,
+			})
+			tl.set(mainContent, {
+				perspective: '200px',
+			})
+			// animate each line
+			tl.add(TweenMax.staggerFrom(lines, 2, { 
+				//x: -20, 
+				transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
+				scale: 0,
+				autoAlpha: 0,
+				ease: Back.easeInOut
+			}, 0.5));
+			// un-splitting the text
+			tl.add(()=>{split.restore()})
+			tl.add(TweenMax.from('.next-button', 3, {
+				x: -30,
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}), '+=1.5');
+			tl.add(TweenMax.from('.prev-button', 3, {
+				x: 10,
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}), '-=.5');
+			tl.add(TweenMax.to('.button-icon', 2, 
+				{
+					repeat: -1,
+					repeatDelay: 3,
+					yoyo: true,
+					'stroke-opacity': 0,
+				}), '+=8');
+			return tl;
+		},
+		getPageAnimation() {
 			const { text, mainContent } = this.$refs;
 			const tl = new TimelineMax();
 			tl.set(mainContent, {
 				autoAlpha: 1,
 				immediateRender: false,
 			})
-            tl.set(mainContent, {
-                perspective: '200px',
-            })
+			tl.set(mainContent, {
+				perspective: '200px',
+			})
 			tl.add(TweenMax.from(text, 2, { 
 				//x: -20, 
-                transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
-                scale: 0,
+				transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
+				scale: 0,
 				autoAlpha: 0,
 				ease: Back.easeInOut
 			}));
@@ -160,55 +208,19 @@ export default {
 					'stroke-opacity': 0,
 				}), '+=8');
 			return tl;
-        },
-		getPageAnimation() {
-			const { text, mainContent } = this.$refs;
-			const tl = new TimelineMax();
-			tl.set(mainContent, {
-				autoAlpha: 1,
-				immediateRender: false,
-			})
-        //    tl.set(mainContent, {
-        //        perspective: '200px',
-        //    })
-		//	tl.add(TweenMax.from(text, 2, { 
-		//		//x: -20, 
-        //        transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
-        //        scale: 0,
-		//		autoAlpha: 0,
-		//		ease: Back.easeInOut
-		//	}));
-		//	tl.add(TweenMax.from('.next-button', 3, {
-		//		x: -30,
-		//		autoAlpha: 0,
-		//		ease: Power4.easeOut
-		//	}), '+=1.5');
-		//	tl.add(TweenMax.from('.prev-button', 3, {
-		//		x: 10,
-		//		autoAlpha: 0,
-		//		ease: Power4.easeOut
-		//	}), '-=.5');
-		//	tl.add(TweenMax.to('.button-icon', 2, 
-		//		{
-		//			repeat: -1,
-		//			repeatDelay: 3,
-		//			yoyo: true,
-		//			'stroke-opacity': 0,
-		//		}), '+=8');
-			return tl;
 		},
 		/* js animation hooks */
 		enter(el, done) {
-            const tl = new TimelineMax();
+			const tl = new TimelineMax();
 			tl.eventCallback("onComplete", done);
-            if (this.firstTime[this.currentIdx]) // if first time
-            {
-                tl.add(this.getFirstTimePageAnimation());
-                this.firstTime[this.currentIdx] = false;
-            }
-            else {
-                tl.add(this.getPageAnimation());
-            }
+			if (this.firstTime[this.currentIdx]) // if first time
+			{
+				tl.add(this.getFirstTimePageAnimation());
+				this.firstTime[this.currentIdx] = false;
+			}
+			else {
+				tl.add(this.getPageAnimation());
+			}
 		},
 		beforeLeave() {
 			const { fallback } = this.$refs;
@@ -219,11 +231,11 @@ export default {
 			tl.eventCallback("onComplete", done);
 			const { mainContent } = this.$refs;
 			// smoothly hide the background element
-            // kick the element to the GPU 
-            // source: https://greensock.com/forums/topic/7842-greensock-slow-on-mobile-devices/
-            tl.set(mainContent, {
-                z: 0.1
-            })
+			// kick the element to the GPU 
+			// source: https://greensock.com/forums/topic/7842-greensock-slow-on-mobile-devices/
+			tl.set(mainContent, {
+				z: 0.1
+			})
 			tl.to(mainContent, 1.5, {
 				autoAlpha: 0,
 			});
@@ -265,7 +277,7 @@ export default {
 	padding: 2rem;
 	margin: 0;
 }
-.text::first-letter {
+.emphasize-first-letter::first-letter {
 	font-size: 2.5em;
 	margin-right: .15em;
 }
