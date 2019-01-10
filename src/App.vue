@@ -37,7 +37,7 @@ export default {
 		let resourcePromises = [];
 		for (let i=0; i<imageUrls.length; i++)
 			resourcePromises.push(this.preloadImg(imageUrls[i]));
-        resourcePromises.push(this.preloadAudio(music));
+		resourcePromises.push(this.preloadAudio(music));
 		Promise.all(resourcePromises).then(()=>{
 			this.imagesLoaded = true;
 		})
@@ -136,15 +136,15 @@ export default {
 				}
 			})
 		},
-        preloadAudio: function(url) {
-            return new Promise((resolve)=>{
-                const audio = new Audio();
-                audio.src = url;
-                audio.oncanplaythrough = ()=>{
-                    resolve(audio);
-                }
-            })
-        }
+		preloadAudio: function(url) {
+			return new Promise((resolve)=>{
+				const audio = new Audio();
+				audio.src = url;
+				audio.oncanplaythrough = ()=>{
+					resolve(audio);
+				}
+			})
+		}
 	}
 }
 </script>
