@@ -48,7 +48,8 @@ export default {
 		titlePageConfig: {
 			mainTitle: '祝你生日快乐',
 			subTitles: [
-				'🎂🎂🎂🎂',
+				//'🎂🎂🎂🎂',
+                'Happy Birthday',
 				'2019-1-19',
 			],
 		},
@@ -90,9 +91,9 @@ export default {
 				imgUrl: insect,
 				text: `你或向左或向右\n必听见后边有声音说：\n“这是正路，要行在其间。”`,
 				textStyle: {
-					'top': '5%',
-					'color': '#eafaff',
-					'text-shadow': '1px 1px black'
+					'bottom': '5%',
+					'color': '#1d1d1d',
+					'text-shadow': '2px 2px white'
 				},
 				arrowColor: 'white'
 			},
