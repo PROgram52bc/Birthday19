@@ -58,26 +58,36 @@ By default, this component displays nothing, until the appear() method is called
 				display: 'block',
 				immediateRender: false
 			})
-			tl.staggerFrom([mainTitle, ...subTitle, button], 6, {
-				opacity: 0
-			}, 1)
-		//	tl.from(button, .5, {
-		//		scale: 0,
-		//		ease: Back.easeOut,
-		//		transformOrigin: '50% 50%'
-		//	})
+            tl.set([mainTitle, ...subTitle, button], {
+                z: .1
+            })
+			tl.staggerFrom([mainTitle, ...subTitle, button], 2, {
+                //scale: .8,
+				transformOrigin: '50% 50%',
+				opacity: 0,
+                y: '-5vh'
+			}, 2)
 			return tl;
 		},
 		disappear() {
 			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
-			tl.to(button, .5, {
+            tl.set([button, mainTitle, ...subTitle], {
+                immediateRender: false,
+                z: .1
+            })
+            tl.set('.button svg', {
+                immediateRender: false,
+                filter: "none"
+            })
+			tl.to(button, 1, {
 				scale: 0,
+                autoAlpha: 0,
 				ease: Back.easeIn,
 				transformOrigin: '50% 50%'
 			})
 			tl.to([mainTitle, ...subTitle], 1, {
-				autoAlpha: 0
+				opacity: 0
 			}) 
 			tl.set(titlePage, {
 				display: 'none',
@@ -118,18 +128,18 @@ By default, this component displays nothing, until the appear() method is called
 	justify-content: center;
 	font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
 	flex-shrink: 2;
-	color: transparent;
+	color: white;
 }
 .main-title {
 	padding: 10px;
-	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 7px white, 0 0 40px #3cb8d7, 0 0 70px #3cb8d7, 0 0 80px #3cb8d7, 0 0 100px #3cb8d7;
-	font-size: 8vh;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px white, 0 0 40px #3cb8d7, 0 0 70px #3cb8d7, 0 0 80px #3cb8d7, 0 0 100px #3cb8d7;
+	font-size: 7vh;
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
 .sub-title {
-	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 7px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
-	font-size: 7vh;
+	text-shadow: 0 0 2px white, 0 0 5px white, 0 0 40px white, 0 0 40px #ffc0cb, 0 0 70px #ffc0cb, 0 0 80px #ffc0cb, 0 0 100px #ffc0cb;
+	font-size: 6vh;
 }
 .button {
 	display: flex;
