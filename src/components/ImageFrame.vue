@@ -110,7 +110,8 @@ export default {
 			tl.add(titlePage.disappear());
 			tl.add(mask.appear());
 			tl.add(mask.disappear());
-			tl.add(this.getFirstTimePageAnimation());
+			tl.add(this.getFirstTimeTextAnimation());
+			tl.add(this.getButtonAnimation());
 			this.firstTime[0] = false;
 		},
 		/* flipping pages */
@@ -126,7 +127,48 @@ export default {
 			this.currentIdx = 0;
 		},
 		/* timeline utilities */
-		getFirstTimePageAnimation() {
+		getButtonAnimation() {
+			const tl = new TimelineMax();
+			tl.from('.next-button', 3, {
+				x: -30,
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}, '+=1.5');
+			tl.from('.prev-button', 3, {
+				x: 10,
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}, '-=.5');
+			tl.to('.button-icon', 2, {
+				repeat: -1,
+				repeatDelay: 3,
+				yoyo: true,
+				'stroke-opacity': 0,
+			}, '+=8');
+			return tl;
+		},
+		getLastPageButtonAnimation() {
+			const tl = new TimelineMax();
+			tl.from('.next-button .button-icon', 3, {
+				'transform-origin': 'center',
+				'transform': 'rotateZ(45deg)',
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}, '+=1.5');
+			tl.from('.prev-button', 3, {
+				x: 10,
+				autoAlpha: 0,
+				ease: Power4.easeOut
+			}, '-=.5');
+			tl.to('.button-icon', 2, {
+				repeat: -1,
+				repeatDelay: 3,
+				yoyo: true,
+				'stroke-opacity': 0,
+			}, '+=8');
+			return tl;
+		},
+		getFirstTimeTextAnimation() {
 			const { text, mainContent } = this.$refs;
 			// split text to lines
 			const split = new Split(text);
@@ -157,26 +199,9 @@ export default {
 			}, 1, "startShowingText");
 			// un-splitting the text
 			tl.add(()=>{split.restore()})
-			tl.add(TweenMax.from('.next-button', 3, {
-				x: -30,
-				autoAlpha: 0,
-				ease: Power4.easeOut
-			}), '+=1.5');
-			tl.add(TweenMax.from('.prev-button', 3, {
-				x: 10,
-				autoAlpha: 0,
-				ease: Power4.easeOut
-			}), '-=.5');
-			tl.add(TweenMax.to('.button-icon', 2, 
-				{
-					repeat: -1,
-					repeatDelay: 3,
-					yoyo: true,
-					'stroke-opacity': 0,
-				}), '+=8');
 			return tl;
 		},
-		getPageAnimation() {
+		getTextAnimation() {
 			const { text, mainContent } = this.$refs;
 			const tl = new TimelineMax();
 			tl.set(mainContent, {
@@ -186,43 +211,34 @@ export default {
 			tl.set(mainContent, {
 				perspective: '200px',
 			})
-			tl.add(TweenMax.from(text, 2, { 
+			tl.from(text, 2, { 
 				//x: -20, 
 				transform: 'rotateY(25deg) rotateZ(25deg) rotateX(90deg)',
 				scale: 0,
 				autoAlpha: 0,
 				ease: Back.easeInOut
-			}));
-			tl.add(TweenMax.from('.next-button', 3, {
-				x: -30,
-				autoAlpha: 0,
-				ease: Power4.easeOut
-			}), '+=1.5');
-			tl.add(TweenMax.from('.prev-button', 3, {
-				x: 10,
-				autoAlpha: 0,
-				ease: Power4.easeOut
-			}), '-=.5');
-			tl.add(TweenMax.to('.button-icon', 2, 
-				{
-					repeat: -1,
-					repeatDelay: 3,
-					yoyo: true,
-					'stroke-opacity': 0,
-				}), '+=8');
+			});
 			return tl;
 		},
 		/* js animation hooks */
 		enter(el, done) {
 			const tl = new TimelineMax();
 			tl.eventCallback("onComplete", done);
+			// add text animation
 			if (this.firstTime[this.currentIdx]) // if first time
 			{
-				tl.add(this.getFirstTimePageAnimation());
+				tl.add(this.getFirstTimeTextAnimation());
 				this.firstTime[this.currentIdx] = false;
 			}
 			else {
-				tl.add(this.getPageAnimation());
+				tl.add(this.getTextAnimation());
+			}
+			// add button animation
+			if (this.currentIdx != this.config.length-1) {
+				tl.add(this.getButtonAnimation())
+			}
+			else {
+				tl.add(this.getLastPageButtonAnimation())
 			}
 		},
 		beforeLeave() {
@@ -276,6 +292,7 @@ export default {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	overflow-x: hidden;
 	overflow-y: hidden;
 }
 /* Text */

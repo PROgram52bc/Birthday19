@@ -18,8 +18,7 @@
 	</div>
 </template>
 <script>
-// eslint-disable-next-line
-import { Back, TweenMax, TimelineMax, Power4 } from 'gsap';
+import { Back, TimelineMax/*, TweenMax, Power4*/ } from 'gsap';
 export default {
 /* animated components:
 has dependency on the gsap package.
@@ -51,11 +50,10 @@ By default, this component displays nothing, until the appear() method is called
 	},
 	methods: {
 		appear() {
-			// eslint-disable-next-line
 			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
 			tl.set(titlePage, {
-				display: 'block',
+				display: 'flex',
 				immediateRender: false
 			})
 			tl.set([mainTitle, ...subTitle, button], {
@@ -105,7 +103,7 @@ By default, this component displays nothing, until the appear() method is called
 <style scoped>
 /* containers */
 .title-page {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	justify-content: space-between;
 	position: fixed;
@@ -162,5 +160,4 @@ By default, this component displays nothing, until the appear() method is called
 	drop-shadow(0 0 100px white);
 	*/
 }
-
 </style>
