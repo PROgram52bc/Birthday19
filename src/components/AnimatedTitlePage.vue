@@ -6,16 +6,16 @@
 		</div>
 		<div class="lower-container">
 			<div class="button" ref="button" v-on:click="$emit('start-button-clicked')">
-                <svg height="30vh" version="1.1" viewBox="0 0 99 113" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="translate(2 0)">
-                    <g transform="translate(-58,-89)" fill="#f1f6f7" stroke="#7f7f7f">
-                    <path transform="scale(-1,1)" d="m-62 196-88-51 88-51z" fill="#f1f6f7" fill-rule="evenodd" stroke="#7f7f7f" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1" stroke-width="9" style="paint-order:normal"/>
-                    </g>
-                    </g>
-                </svg>
-            </div>
-        </div>
-    </div>
+				<svg height="30vh" version="1.1" viewBox="0 0 99 113" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(2 0)">
+					<g transform="translate(-58,-89)" fill="#f1f6f7" stroke="#7f7f7f">
+					<path transform="scale(-1,1)" d="m-62 196-88-51 88-51z" fill="#f1f6f7" fill-rule="evenodd" stroke="#7f7f7f" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1" stroke-width="9" style="paint-order:normal"/>
+					</g>
+					</g>
+				</svg>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 // eslint-disable-next-line
@@ -58,35 +58,39 @@ By default, this component displays nothing, until the appear() method is called
 				display: 'block',
 				immediateRender: false
 			})
-            tl.set([mainTitle, ...subTitle, button], {
-                z: .1
-            })
-			tl.staggerFrom([mainTitle, ...subTitle, button], 2, {
-                //scale: .8,
-				transformOrigin: '50% 50%',
+			tl.set([mainTitle, ...subTitle, button], {
+				z: .1
+			})
+			tl.staggerFrom([mainTitle, ...subTitle], 2, {
 				opacity: 0,
-                y: '-5vh'
+				y: '-5vh'
 			}, 2)
+			tl.from(button, 2, {
+				autoAlpha: 0,
+				//scale: 1.5,
+				//transformOrigin: '50% 50%',
+				//ease: Back.easeOut,
+			})
 			return tl;
 		},
 		disappear() {
 			const { button, titlePage, mainTitle, subTitle } = this.$refs;
 			const tl = new TimelineMax();
-            tl.set([button, mainTitle, ...subTitle], {
-                immediateRender: false,
-                z: .1
-            })
-            tl.set('.button svg', {
-                immediateRender: false,
-                filter: "none"
-            })
+			tl.set([button, mainTitle, ...subTitle], {
+				immediateRender: false,
+				z: .1
+			})
+			tl.set('.button svg', {
+				immediateRender: false,
+				filter: "none"
+			})
 			tl.to(button, 1, {
 				scale: 0,
-                autoAlpha: 0,
+				autoAlpha: 0,
 				ease: Back.easeIn,
 				transformOrigin: '50% 50%'
 			})
-			tl.to([mainTitle, ...subTitle], 1, {
+			tl.to([mainTitle, ...subTitle], 2, {
 				opacity: 0
 			}) 
 			tl.set(titlePage, {
@@ -148,15 +152,15 @@ By default, this component displays nothing, until the appear() method is called
 	flex-shrink: 3;
 }
 .button svg {
-    filter: 
-    drop-shadow(0 0 2px white)
-    drop-shadow(0 0 5px white)
-    drop-shadow(0 0 7px white)
-    drop-shadow(0 0 20px white)
-    drop-shadow(0 0 40px white)
-    /*
-    drop-shadow(0 0 100px white);
-    */
+	filter: 
+	drop-shadow(0 0 2px white)
+	drop-shadow(0 0 5px white)
+	drop-shadow(0 0 7px white)
+	drop-shadow(0 0 20px white)
+	drop-shadow(0 0 40px white)
+	/*
+	drop-shadow(0 0 100px white);
+	*/
 }
 
 </style>
