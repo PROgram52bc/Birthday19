@@ -276,6 +276,7 @@ export default {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+    overflow-y: hidden;
 }
 /* Text */
 .text {
