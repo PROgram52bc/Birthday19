@@ -12,15 +12,15 @@
 			<pre class="text emphasize-first-letter" ref="text" v-bind:style="currentConfig.textStyle">{{currentConfig.text}}</pre>
 			<div v-if="currentIdx!=0" class="button prev-button" v-on:click="prevPage">
 				<!-- PREV BUTTON SVG STARTS -->
-				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
-					<path d="M4,0L1,3L4,6" ></path>
+				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 8" xmlns="http://www.w3.org/2000/svg">
+					<path d="M4,1L1,4L4,7" ></path>
 				</svg>
 				<!-- PREV BUTTON SVG ENDS -->
 			</div>
 			<div v-if="currentIdx!=config.length-1" class="button next-button" v-on:click="nextPage">
 				<!-- NEXT BUTTON SVG STARTS -->
-				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 6" xmlns="http://www.w3.org/2000/svg">
-					<path d="M1,0L4,3L1,6" ></path>
+				<svg class="button-icon" stroke-linecap="round" stroke-width="1" v-bind:stroke="currentConfig.arrowColor?currentConfig.arrowColor:'rgb(0,0,0)'" stroke-opacity="0.4" fill="none" stroke-linejoin="round" viewBox="0 0 5 8" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1,1L4,4L1,7" ></path>
 				</svg>
 				<!-- NEXT BUTTON SVG ENDS -->
 			</div>
@@ -276,7 +276,7 @@ export default {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 /* Text */
 .text {
@@ -291,6 +291,9 @@ export default {
 
 /* The buttons */
 .button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	z-index: 10;
 	position: fixed;
 	top: 0;
@@ -306,6 +309,6 @@ export default {
 }
 .button-icon {
 	width: 20vw;
-	height: 100vh;
+	height: auto;
 }
 </style>
