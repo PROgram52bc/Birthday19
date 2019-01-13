@@ -17,7 +17,7 @@ import millipede from './assets/img/millipede.jpg'
 import insect from './assets/img/insect.jpg'
 import cloud from './assets/img/cloud.jpg'
 import grass from './assets/img/grass.jpg'
-import music from './assets/audio/By_Faith_64kbps.mp3'
+import music from './assets/audio/By_Faith_64kbps_trimmed.mp3'
 const imageUrls = [
 	rocks,
 	bug,
@@ -49,7 +49,7 @@ export default {
 			mainTitle: '祝你生日快乐',
 			subTitles: [
 				//'🎂🎂🎂🎂',
-                'Happy Birthday',
+				'Happy Birthday',
 				'2019-1-19',
 			],
 		},
