@@ -100,7 +100,7 @@ export default {
 			{
 				key: 'cloud',
 				imgUrl: cloud,
-				text: `在你的一生中\n    必有恩惠和慈爱随着你\n你也要住在耶和华的殿中\n                   直到永远。`,
+				text: `祂的恩惠和慈爱\n    也必要伴随你\n              一生之久。`,
 				textStyle: {
 					'top': '10%',
 					'left': '10%',
