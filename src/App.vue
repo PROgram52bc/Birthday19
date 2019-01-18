@@ -59,7 +59,8 @@ export default {
 				imgUrl: rocks,
 				text: `“大山可以挪开\n 小山可以迁移\n 但我的慈爱必不离开你\n 我平安的约也不迁移。”\n这是怜恤你的主说的。`,
 				textStyle: {
-					'top': '20%',
+					'top': '20vh',
+                    'left': '3vw',
 					'color': 'lightblue',
 					'text-shadow': '1px 1px black'
 				},
@@ -69,8 +70,8 @@ export default {
 				imgUrl: bug,
 				text: `你出来必不至急忙\n           也不至奔逃\n因为耶和华必在你前头行；\n以色列的神必作你的后盾。`,
 				textStyle: {
-					'bottom': '5%',
-					'left': '10%',
+					'bottom': '5vh',
+					'left': '10vw',
 					'color': 'yellow',
 					'text-shadow': '1px 2px grey'
 				}
@@ -80,7 +81,8 @@ export default {
 				imgUrl: millipede,
 				text: `祂必用自己的翎毛遮蔽你\n你要投靠在祂的翅膀底下。\n祂的诚实是大小的盾牌。`,
 				textStyle: {
-					'top': '10%',
+					'top': '10vh',
+                    'right': '20vw',
 					'color': 'white',
 					'text-shadow': '2px 2px #996633'
 				},
@@ -91,7 +93,8 @@ export default {
 				imgUrl: insect,
 				text: `你或向左或向右\n必听见后边有声音说：\n“这是正路，要行在其间。”`,
 				textStyle: {
-					'bottom': '5%',
+					'bottom': '5vh',
+                    'left': '5vw',
 					'color': '#1d1d1d',
 					'text-shadow': '2px 2px white'
 				},
@@ -102,8 +105,8 @@ export default {
 				imgUrl: cloud,
 				text: `祂的恩惠和慈爱\n    也必要伴随你\n              一生之久。`,
 				textStyle: {
-					'top': '10%',
-					'left': '10%',
+					'top': '10vh',
+					'left': '10vw',
 					'color': '#eafaff',
 					'text-shadow': '1px 1px black'
 				}
@@ -114,7 +117,7 @@ export default {
 				text: `愿主的恩典常与你同在!\n\nReferences:\n赛54:10, 52:12, 诗91:4, 赛30:21, 诗23:6\nMusic: By Faith`,
 				textStyle: {
 					'position': 'relative',
-					'top': '10%',
+					'top': '10vh',
 					'text-align': 'center',
 					'margin': '0 auto',
 					'background': 'rgba(165, 176, 67, .5)',
