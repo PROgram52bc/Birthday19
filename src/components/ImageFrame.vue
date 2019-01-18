@@ -110,7 +110,7 @@ export default {
 			tl.add(titlePage.disappear());
 			tl.add(mask.appear());
 			tl.add(mask.disappear());
-			tl.add(this.getFirstTimeTextAnimation());
+			tl.add(this.getFirstTimeTextAnimation(), '+=1.5');
 			tl.add(this.getButtonAnimation());
 			this.firstTime[0] = false;
 		},
@@ -196,7 +196,7 @@ export default {
 				scale: 5,
 				autoAlpha: 0,
 				ease: Back.easeInOut
-			}, 1, "startShowingText");
+			}, 2, "startShowingText");
 			// un-splitting the text
 			tl.add(()=>{split.restore()})
 			return tl;

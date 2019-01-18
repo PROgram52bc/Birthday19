@@ -62,7 +62,7 @@ By default, this component displays nothing, until the appear() method is called
 			tl.staggerFrom([mainTitle, ...subTitle], 2, {
 				opacity: 0,
 				y: '-5vh'
-			}, 2)
+			}, 2, '+=2')
 			tl.from(button, 2, {
 				autoAlpha: 0,
 				//scale: 1.5,
